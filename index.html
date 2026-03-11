@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║         PE Variable Checklist — Team Dashboard               ║
+  ║                                                              ║
+  ║  © 2026 Ferel Manuputty. All rights reserved.               ║
+  ║  This tool and its contents are the intellectual property    ║
+  ║  of Ferel Manuputty. Unauthorized copying, modification,     ║
+  ║  distribution, or use of this software, in whole or in       ║
+  ║  part, without express written permission is strictly        ║
+  ║  prohibited.                                                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PE Variable Checklist — Team Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1f3c;
+    --blue: #1a4a8a;
+    --mid: #2563b8;
+    --sky: #4a9edd;
+    --pale: #e8f2fc;
+    --cream: #f7f9fc;
+    --white: #ffffff;
+    --ink: #1a2535;
+    --muted: #6b7a92;
+    --border: #d0dce8;
+    --check: #22c55e;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --shadow: 0 4px 24px rgba(13,31,60,0.08);
+    --shadow-lg: 0 12px 48px rgba(13,31,60,0.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; padding-bottom: 42px; }
+
+  /* ── NAV TABS ── */
+  .app-nav {
+    background: var(--navy);
+    display: flex; align-items: stretch;
+    padding: 0 32px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px; color: rgba(255,255,255,0.9);
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 24px 14px 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    margin-right: 16px;
+    white-space: nowrap;
+  }
+  .nav-brand .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sky); flex-shrink: 0; }
+  .nav-tabs { display: flex; gap: 4px; align-items: center; }
+  .nav-tab {
+    padding: 10px 18px;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer; border: none; background: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.18s;
+    display: flex; align-items: center; gap: 7px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .nav-tab:hover { color: rgba(255,255,255,0.8); }
+  .nav-tab.active { color: #fff; border-bottom-color: var(--sky); }
+  .nav-tab .tab-badge {
+    background: var(--sky); color: #fff;
+    font-size: 10px; font-weight: 700;
+    padding: 2px 6px; border-radius: 100px;
+    min-width: 18px; text-align: center;
+  }
+  .nav-spacer { flex: 1; }
+  .nav-team {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(255,255,255,0.5);
+  }
+  .nav-team-avatars { display: flex; }
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #fff;
+    border: 2px solid var(--navy);
+    margin-left: -6px;
+    cursor: default;
+  }
+
+  /* ── PAGE VIEWS ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════════
+     CHECKLIST PAGE
+  ══════════════════════════════ */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--mid) 100%);
+    padding: 48px 40px 40px; position: relative; overflow: hidden;
+  }
+  .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+  .hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; padding: 5px 13px; font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--sky); display: block; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(22px, 3.5vw, 34px); color: #fff; line-height: 1.2; margin-bottom: 8px; font-style: italic; }
+  .hero h1 em { font-style: normal; color: var(--sky); }
+  .hero-sub { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+  .meta-card { max-width: 860px; margin: 0 auto; background: var(--white); border-radius: 0 0 14px 14px; box-shadow: var(--shadow); padding: 24px 36px 28px; }
+  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .meta-field label { display: block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 5px; }
+  .meta-field input, .meta-field select { width: 100%; border: none; border-bottom: 1.5px solid var(--border); padding: 6px 2px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: transparent; outline: none; transition: border-color 0.2s; }
+  .meta-field input:focus, .meta-field select:focus { border-bottom-color: var(--mid); }
+
+  .instructions { max-width: 860px; margin: 20px auto 0; background: var(--pale); border-left: 3px solid var(--sky); border-radius: 8px; padding: 12px 18px; font-size: 12.5px; color: var(--blue); line-height: 1.6; }
+  .instructions strong { color: var(--navy); }
+
+  .progress-bar-wrap { max-width: 860px; margin: 16px auto 0; background: var(--white); border-radius: 10px; padding: 14px 22px; border: 1px solid var(--border); display: flex; align-items: center; gap: 14px; }
+  .progress-label { font-size: 11px; font-weight: 600; color: var(--muted); white-space: nowrap; text-transform: uppercase; letter-spacing: 0.06em; }
+  .progress-track { flex: 1; height: 6px; background: #e8eef5; border-radius: 100px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--mid), var(--sky)); border-radius: 100px; transition: width 0.4s ease; width: 0%; }
+  .progress-count { font-size: 13px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+
+  .form-main { max-width: 860px; margin: 0 auto; padding: 28px 0 60px; }
+
+  .section { margin-bottom: 24px; }
+  .section-header { display: flex; align-items: center; gap: 12px; padding: 14px 22px; border-radius: 10px 10px 0 0; cursor: pointer; user-select: none; transition: filter 0.15s; }
+  .section-header:hover { filter: brightness(1.07); }
+  .section-a .section-header { background: linear-gradient(90deg, #0d1f3c, #1a4a8a); }
+  .section-b .section-header { background: linear-gradient(90deg, #1a4a8a, #2563b8); }
+  .section-c .section-header { background: linear-gradient(90deg, #0d2b5c, #1a4a8a); }
+  .section-d .section-header { background: linear-gradient(90deg, #14532d, #166534); }
+  .section-num { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #fff; flex-shrink: 0; }
+  .section-title { flex: 1; font-size: 12px; font-weight: 600; color: #fff; letter-spacing: 0.05em; text-transform: uppercase; }
+  .section-progress { font-size: 11px; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.12); padding: 3px 10px; border-radius: 100px; font-variant-numeric: tabular-nums; }
+  .section-chevron { color: rgba(255,255,255,0.6); font-size: 16px; transition: transform 0.25s; }
+  .section.collapsed .section-chevron { transform: rotate(-90deg); }
+  .section-body { background: var(--white); border-radius: 0 0 10px 10px; border: 1px solid var(--border); border-top: none; overflow: hidden; transition: max-height 0.35s ease; }
+  .section.collapsed .section-body { max-height: 0 !important; }
+  .section-desc { padding: 12px 22px 8px; font-size: 12px; color: var(--muted); font-style: italic; border-bottom: 1px solid #f0f4f8; }
+  .subsection { padding: 0 22px; }
+  .subsection-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid); padding: 16px 0 8px; border-bottom: 1px solid #eef2f8; margin-bottom: 2px; }
+
+  .check-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 8px; border-bottom: 1px solid #f4f7fb; cursor: pointer; transition: background 0.12s; border-radius: 6px; margin: 0 -8px; }
+  .check-item:last-child { border-bottom: none; }
+  .check-item:hover { background: #f7faff; }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box { width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--border); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.18s; background: var(--white); }
+  .check-item.checked .check-box { background: var(--check); border-color: var(--check); }
+  .check-item.checked .check-box::after { content: ''; display: block; width: 4px; height: 8px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg) translateY(-1px); }
+  .check-text { flex: 1; }
+  .check-label { font-size: 13.5px; font-weight: 500; color: var(--ink); line-height: 1.5; transition: color 0.18s; }
+  .check-item.checked .check-label { color: var(--muted); text-decoration: line-through; text-decoration-color: #c0ccd8; }
+  .check-hint { font-size: 11.5px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+  .nested-checks { margin-top: 8px; margin-left: 32px; background: #f7faff; border-radius: 8px; padding: 8px 12px; display: flex; gap: 16px; }
+  .nested-checks .check-item { border: none; padding: 5px 0; margin: 0; flex: 1; background: transparent !important; }
+  .nested-checks .check-label { font-size: 13px; }
+  .days-field { margin-top: 8px; margin-left: 32px; display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+  .days-field input { width: 60px; border: none; border-bottom: 1.5px solid var(--border); padding: 3px 5px; font-family: 'DM Sans', sans-serif; font-size: 13px; text-align: center; outline: none; background: transparent; transition: border-color 0.2s; }
+  .days-field input:focus { border-bottom-color: var(--mid); }
+
+  .signoff-card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 24px 28px; margin-top: 24px; }
+  .signoff-title { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .signoff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 28px; }
+  .signoff-field label { display: block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 5px; }
+  .signoff-field input { width: 100%; border: none; border-bottom: 1.5px solid var(--border); padding: 6px 2px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: transparent; outline: none; transition: border-color 0.2s; }
+  .signoff-field input:focus { border-bottom-color: var(--mid); }
+
+  .submit-row { max-width: 860px; margin: 20px auto 0; display: flex; gap: 10px; justify-content: flex-end; padding-bottom: 40px; }
+  .btn { padding: 11px 26px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600; cursor: pointer; border: none; transition: all 0.18s; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--muted); }
+  .btn-outline:hover { border-color: var(--mid); color: var(--mid); }
+  .btn-primary { background: linear-gradient(135deg, var(--blue), var(--mid)); color: #fff; box-shadow: 0 4px 14px rgba(37,99,184,0.28); }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,184,0.38); }
+  .btn-danger { background: transparent; border: 1.5px solid #fca5a5; color: var(--danger); }
+  .btn-danger:hover { background: #fef2f2; }
+
+  /* ══════════════════════════════
+     DASHBOARD PAGE
+  ══════════════════════════════ */
+  .dash-wrap { max-width: 1000px; margin: 0 auto; padding: 32px 20px 60px; }
+  .dash-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 28px; gap: 20px; flex-wrap: wrap; }
+  .dash-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--navy); }
+  .dash-title span { font-style: italic; color: var(--mid); }
+  .dash-subtitle { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+  .stat-card { background: var(--white); border-radius: 10px; border: 1px solid var(--border); padding: 18px 20px; }
+  .stat-value { font-size: 28px; font-weight: 600; color: var(--navy); font-variant-numeric: tabular-nums; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; }
+  .stat-card.green .stat-value { color: #16a34a; }
+  .stat-card.amber .stat-value { color: #d97706; }
+  .stat-card.blue .stat-value { color: var(--mid); }
+
+  /* Filters */
+  .dash-filters { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+  .filter-input { border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--white); outline: none; transition: border-color 0.2s; }
+  .filter-input:focus { border-color: var(--mid); }
+  .filter-select { border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--white); outline: none; cursor: pointer; }
+  .filter-spacer { flex: 1; }
+
+  /* Table */
+  .table-wrap { background: var(--white); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+  .dash-table { width: 100%; border-collapse: collapse; }
+  .dash-table thead tr { background: #f1f5fb; }
+  .dash-table th { padding: 12px 16px; text-align: left; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+  .dash-table td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid #f0f4f8; vertical-align: middle; }
+  .dash-table tbody tr:last-child td { border-bottom: none; }
+  .dash-table tbody tr:hover { background: #fafcff; }
+
+  .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+  .badge-complete { background: #dcfce7; color: #166534; }
+  .badge-partial { background: #fef9c3; color: #854d0e; }
+  .badge-empty { background: #f1f5f9; color: #64748b; }
+  .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  .mini-bar { width: 80px; height: 5px; background: #e8eef5; border-radius: 100px; overflow: hidden; display: inline-block; vertical-align: middle; }
+  .mini-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--mid), var(--sky)); transition: width 0.3s; }
+  .mini-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .mini-pct { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; width: 30px; }
+
+  .row-actions { display: flex; gap: 6px; }
+  .row-btn { padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+  .row-btn-view { background: var(--pale); color: var(--mid); }
+  .row-btn-view:hover { background: #c7dcf5; }
+  .row-btn-del { background: #fef2f2; color: var(--danger); }
+  .row-btn-del:hover { background: #fee2e2; }
+
+  .empty-state { text-align: center; padding: 60px 20px; }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+  .empty-sub { font-size: 13px; color: var(--muted); }
+
+  /* Detail modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(13,31,60,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--white); border-radius: 14px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: transform 0.25s; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-header { padding: 22px 26px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: sticky; top: 0; background: var(--white); z-index: 1; }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--navy); }
+  .modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--muted); padding: 2px 6px; border-radius: 4px; transition: color 0.15s; }
+  .modal-close:hover { color: var(--ink); }
+  .modal-body { padding: 20px 26px 26px; }
+  .modal-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .modal-meta-item label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); display: block; margin-bottom: 2px; }
+  .modal-meta-item span { font-size: 13px; color: var(--ink); }
+  .modal-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mid); margin: 16px 0 8px; }
+  .modal-check-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid #f4f7fb; font-size: 13px; }
+  .modal-check-row:last-child { border-bottom: none; }
+  .modal-check-icon { flex-shrink: 0; font-size: 14px; }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; right: 24px; background: var(--navy); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); transform: translateY(60px); opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 999; }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  .d-status-wrap { margin-left: auto; flex-shrink: 0; }
+  .d-status-select {
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    padding: 5px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--white);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    min-width: 130px;
+  }
+  .d-status-select:focus { border-color: var(--mid); }
+  .d-status-select.status-done { background: #dcfce7; border-color: #86efac; color: #166534; }
+  .d-status-select.status-inprogress { background: #fef9c3; border-color: #fcd34d; color: #854d0e; }
+  .d-status-select.status-notstarted { background: #f1f5f9; border-color: #cbd5e1; color: #64748b; }
+  .check-item.locked .d-status-select { pointer-events: none; opacity: 0.4; }
+    opacity: 0.38;
+    cursor: not-allowed;
+    background: #f4f7fb !important;
+    pointer-events: none;
+  }
+  .check-item.locked .check-box {
+    background: #e8eef5;
+    border-color: #c8d4e0;
+  }
+  .check-item.locked .check-label {
+    color: var(--muted);
+  }
+  .section-d-notice {
+    font-size: 11.5px;
+    color: #92400e;
+    background: #fff8e6;
+    border: 1px solid #fcd34d;
+    border-radius: 7px;
+    padding: 8px 14px;
+    margin: 12px 0 4px;
+    display: none;
+  }
+  .section-d-notice.visible { display: block; }
+    .app-nav { padding: 0 16px; }
+    .nav-brand { display: none; }
+    .meta-grid { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 32px 20px 28px; }
+    .meta-card { padding: 18px 20px; }
+    .form-main { padding: 20px 12px 48px; }
+    .section-header { padding: 12px 14px; }
+    .subsection { padding: 0 14px; }
+    .signoff-grid { grid-template-columns: 1fr; }
+    .signoff-card { padding: 18px; }
+    .submit-row { margin: 16px 12px 0; padding-bottom: 32px; }
+    .progress-bar-wrap, .instructions { margin-left: 0; margin-right: 0; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .dash-table th:nth-child(3), .dash-table td:nth-child(3) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="app-nav">
+  <div class="nav-brand"><div class="dot"></div>PE Checklist</div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab('checklist')" id="tab-checklist">
+      📋 New Submission
+    </button>
+    <button class="nav-tab" onclick="switchTab('dashboard')" id="tab-dashboard">
+      📊 Dashboard
+      <span class="tab-badge" id="submissionBadge">0</span>
+    </button>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-team">
+    <div class="nav-team-avatars">
+      <div class="avatar" style="background:#2563b8" title="MD Associate">MA</div>
+      <div class="avatar" style="background:#0891b2" title="Clinical Project Leader">CP</div>
+      <div class="avatar" style="background:#7c3aed" title="Data Manager">DM</div>
+      <div class="avatar" style="background:#059669" title="CRO Lead">CR</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ CHECKLIST PAGE ══════════ -->
+<div class="page active" id="page-checklist">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge"><span></span>Pharmacoeconomic Review</div>
+      <h1>Pharmacoeconomic (PE)<br><em>Variable Checklist & Review Form</em></h1>
+      <div class="hero-sub">Randomized Controlled Trials &amp; Observational Studies</div>
+    </div>
+  </div>
+
+  <div class="meta-card">
+    <div class="meta-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="meta-field">
+        <label>Study / Protocol Number</label>
+        <input type="text" id="f-study" placeholder="e.g. CRZ-2025-001">
+      </div>
+      <div class="meta-field">
+        <label>Therapeutic Area</label>
+        <input type="text" id="f-therapeutic" placeholder="e.g. Cardiology">
+      </div>
+      <div class="meta-field">
+        <label>Drug / Compound</label>
+        <input type="text" id="f-drug" placeholder="e.g. Crezet">
+      </div>
+      <div class="meta-field">
+        <label>CRF Version Reviewed</label>
+        <input type="text" id="f-crf" placeholder="e.g. v1.2">
+      </div>
+      <div class="meta-field">
+        <label>Reviewer Name &amp; Role</label>
+        <input type="text" id="f-reviewer" placeholder="Name, MD Associate / CPL">
+      </div>
+      <div class="meta-field">
+        <label>Review Date</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="meta-field">
+        <label>Study Phase</label>
+        <select id="f-phase" onchange="applyPhaseLock()">
+          <option value="">Select phase…</option>
+          <option>Protocol Development</option>
+          <option>CRF Architecture</option>
+          <option>Site Initiation Visit (SIV)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="instructions" style="max-width:860px;margin-left:auto;margin-right:auto;margin-top:18px;">
+    <strong>Instructions:</strong> The designated personnel must verify the inclusion of all required parameters in the draft CRF. Check each box to confirm. All items must be confirmed before sign-off.
+  </div>
+
+  <div class="progress-bar-wrap" style="max-width:860px;margin-left:auto;margin-right:auto;">
+    <div class="progress-label">Progress</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-count" id="progressCount">0 / 16</div>
+  </div>
+
+  <div class="form-main">
+
+    <!-- PART A -->
+    <div class="section section-a" id="sec-a">
+      <div class="section-header" onclick="toggleSection('sec-a')">
+        <div class="section-num">A</div>
+        <div class="section-title">Macro-Level Resource Utilization</div>
+        <div class="section-progress" id="prog-a">0 / 6</div>
+        <div class="section-chevron">›</div>
+      </div>
+      <div class="section-body" id="body-a">
+        <div class="section-desc">Captures the most significant economic events within the cardiovascular patient pathway.</div>
+        <div class="subsection">
+          <div class="subsection-title">A1 — Inpatient Hospitalization &amp; Length of Stay (LoS)</div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Date of Admission is captured in the CRF</div><div class="check-hint">Required for aggregate LoS calculation.</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Date of Discharge is captured in the CRF</div><div class="check-hint">Required for aggregate LoS calculation.</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">ICU / CVCU duration (days) is captured</div><div class="check-hint">Critical Care Stratification: days in ICU or Cardiovascular Care Unit (CVCU).</div></div></div>
+          <div class="subsection-title">A2 — Major Cardiovascular Interventions</div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Itemized selection field for major interventions is present</div><div class="check-hint">Covers: PCI, CABG, Pacemaker/ICD implantation, Valvular surgery.</div></div></div>
+          <div class="subsection-title">A3 — Unplanned Hospital Readmissions</div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Unplanned readmission / ED visit (Yes/No) within 30 days post-discharge is documented</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Primary etiology categorization present (Cardiovascular / Non-cardiovascular)</div><div class="check-hint">Required only if readmission = Yes.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART B -->
+    <div class="section section-b" id="sec-b">
+      <div class="section-header" onclick="toggleSection('sec-b')">
+        <div class="section-num">B</div>
+        <div class="section-title">Health-Related Quality of Life (HRQoL) Utilities</div>
+        <div class="section-progress" id="prog-b">0 / 6</div>
+        <div class="section-chevron">›</div>
+      </div>
+      <div class="section-body" id="body-b">
+        <div class="section-desc">Mandatory for generating utility values in Cost-Utility Analyses (CUA). Instruments must be self-administered by patients before investigator assessment.</div>
+        <div class="subsection">
+          <div class="subsection-title">B1 — EQ-5D-5L Instrument Integration</div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">EQ-5D-5L questionnaire is incorporated into the CRF / eCRF</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Baseline administration is scheduled</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Mid-point follow-up administration is scheduled (e.g. Month 6)</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">End of Study (EoS) visit administration is scheduled</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">eCRF supports structured entry of the 5-digit EQ-5D health state profile</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">eCRF captures the Visual Analogue Scale (VAS) quantitative score</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART C -->
+    <div class="section section-c" id="sec-c">
+      <div class="section-header" onclick="toggleSection('sec-c')">
+        <div class="section-num">C</div>
+        <div class="section-title">Economic Impact of Serious Adverse Events (SAEs)</div>
+        <div class="section-progress" id="prog-c">0 / 3</div>
+        <div class="section-chevron">›</div>
+      </div>
+      <div class="section-body" id="body-c">
+        <div class="section-desc">Focus on institutional resource impact. Appended directly to standard SAE reporting forms.</div>
+        <div class="subsection">
+          <div class="subsection-title">C1 — SAE Form Enhancement</div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Standard SAE form includes the mandatory admission query</div><div class="check-hint">"Did this SAE necessitate hospital admission or prolong a current inpatient stay?"</div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Yes / No response options are present on the SAE form</div><div class="nested-checks" onclick="event.stopPropagation()"><div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">Yes</div></div></div><div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">No</div></div></div></div></div></div>
+          <div class="check-item" onclick="toggle(this)"><input type="checkbox"><div class="check-box"></div><div class="check-text"><div class="check-label">If Yes: supplementary hospital days field is present</div><div class="days-field" onclick="event.stopPropagation()"><span>Supplementary days:</span><input type="number" min="0" placeholder="0"><span>days</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART D -->
+    <div class="section section-d" id="sec-d">
+      <div class="section-header" onclick="toggleSection('sec-d')">
+        <div class="section-num">D</div>
+        <div class="section-title">Operational Implementation Workflow Sign-Off</div>
+        <div class="section-progress" id="prog-d">0 / 3</div>
+        <div class="section-chevron">›</div>
+      </div>
+      <div class="section-body" id="body-d">
+        <div class="subsection" style="padding-bottom:14px;">
+          <div class="section-d-notice" id="d-notice">🔒 Only the checkbox matching the selected study phase can be checked.</div>
+
+          <!-- D1: Protocol Development -->
+          <div class="check-item" id="d-protocol" onclick="toggle(this)">
+            <input type="checkbox"><div class="check-box"></div>
+            <div class="check-text">
+              <div class="check-label">Protocol Development Phase complete</div>
+              <div class="check-hint">Designated personnel has built the HEOR section in the clinical trial protocol.</div>
+            </div>
+            <div class="d-status-wrap" onclick="event.stopPropagation()">
+              <select class="d-status-select" id="ds-protocol" onchange="updateDStatusStyle(this)">
+                <option value="">— Status —</option>
+                <option value="done">✅ Done</option>
+                <option value="inprogress">🔄 In Progress</option>
+                <option value="notstarted">⏳ Not Started</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- D2: CRF Architecture -->
+          <div class="check-item" id="d-crf" onclick="toggle(this)">
+            <input type="checkbox"><div class="check-box"></div>
+            <div class="check-text">
+              <div class="check-label">CRF Architecture Phase complete</div>
+              <div class="check-hint">Data Management and CRO confirmed all Part 2 parameters integrated into eCRF and paper CRF.</div>
+            </div>
+            <div class="d-status-wrap" onclick="event.stopPropagation()">
+              <select class="d-status-select" id="ds-crf" onchange="updateDStatusStyle(this)">
+                <option value="">— Status —</option>
+                <option value="done">✅ Done</option>
+                <option value="inprogress">🔄 In Progress</option>
+                <option value="notstarted">⏳ Not Started</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- D3: SIV Briefing -->
+          <div class="check-item" id="d-siv" onclick="toggle(this)">
+            <input type="checkbox"><div class="check-box"></div>
+            <div class="check-text">
+              <div class="check-label">SIV Briefing complete</div>
+              <div class="check-hint">Principal Investigators briefed: EQ-5D is patient-administered; no additional site burden.</div>
+            </div>
+            <div class="d-status-wrap" onclick="event.stopPropagation()">
+              <select class="d-status-select" id="ds-siv" onchange="updateDStatusStyle(this)">
+                <option value="">— Status —</option>
+                <option value="done">✅ Done</option>
+                <option value="inprogress">🔄 In Progress</option>
+                <option value="notstarted">⏳ Not Started</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGN-OFF -->
+    <div class="signoff-card">
+      <div class="signoff-title">Reviewer Sign-Off</div>
+      <div class="signoff-grid">
+        <div class="signoff-field"><label>Reviewer Signature</label><input type="text" id="f-sig" placeholder="Type full name as signature"></div>
+        <div class="signoff-field"><label>Sign-Off Date</label><input type="date" id="f-sigdate"></div>
+        <div class="signoff-field"><label>Print Name &amp; Title</label><input type="text" id="f-print" placeholder="Full name, designation"></div>
+        <div class="signoff-field"><label>Version / Amendment No.</label><input type="text" id="f-version" placeholder="e.g. v1.0"></div>
+      </div>
+    </div>
+
+  </div><!-- /form-main -->
+
+  <div class="submit-row">
+    <button class="btn btn-outline" onclick="resetForm()">Reset Form</button>
+    <button class="btn btn-primary" onclick="submitForm()">Submit &amp; Save →</button>
+  </div>
+
+</div><!-- /page-checklist -->
+
+<!-- ══════════ DASHBOARD PAGE ══════════ -->
+<div class="page" id="page-dashboard">
+  <div class="dash-wrap">
+
+    <div class="dash-header">
+      <div>
+        <div class="dash-title">Submission <span>Dashboard</span></div>
+        <div class="dash-subtitle">All PE checklist reviews — team overview</div>
+      </div>
+      <button class="btn btn-primary" onclick="switchTab('checklist')">+ New Submission</button>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-value" id="stat-total">0</div><div class="stat-label">Total Submissions</div></div>
+      <div class="stat-card green"><div class="stat-value" id="stat-complete">0</div><div class="stat-label">Fully Complete</div></div>
+      <div class="stat-card amber"><div class="stat-value" id="stat-partial">0</div><div class="stat-label">Partial</div></div>
+      <div class="stat-card blue"><div class="stat-value" id="stat-avg">—</div><div class="stat-label">Avg. Completion</div></div>
+    </div>
+
+    <div class="dash-filters">
+      <input class="filter-input" id="filterSearch" placeholder="🔍  Search study, reviewer…" oninput="renderTable()" style="min-width:220px;">
+      <select class="filter-select" id="filterStatus" onchange="renderTable()">
+        <option value="">All statuses</option>
+        <option value="complete">Complete</option>
+        <option value="partial">Partial</option>
+        <option value="empty">Not started</option>
+      </select>
+      <select class="filter-select" id="filterPhase" onchange="renderTable()">
+        <option value="">All phases</option>
+        <option>Protocol Development</option>
+        <option>CRF Architecture</option>
+        <option>Site Initiation Visit (SIV)</option>
+      </select>
+      <div class="filter-spacer"></div>
+      <button class="btn btn-outline" onclick="clearAllData()" style="font-size:12px;padding:8px 14px;">🗑 Clear All</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="dash-table">
+        <thead>
+          <tr>
+            <th>Study / Protocol</th>
+            <th>Reviewer</th>
+            <th>Phase</th>
+            <th>Date</th>
+            <th>Completion</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="dashTableBody"></tbody>
+      </table>
+      <div id="emptyState" class="empty-state" style="display:none;">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">No submissions yet</div>
+        <div class="empty-sub">Complete and submit a checklist to see it here.</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-dashboard -->
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Submission Detail</div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const TOTAL = 18;
+const STORAGE_KEY = 'pe_checklist_submissions';
+const ITEM_LABELS = [
+  // A
+  'Date of Admission captured', 'Date of Discharge captured', 'ICU/CVCU duration captured',
+  'Major interventions field present',
+  'Unplanned readmission documented', 'Primary etiology categorization present',
+  // B
+  'EQ-5D-5L questionnaire incorporated', 'Baseline administration scheduled',
+  'Mid-point follow-up scheduled', 'EoS visit administration scheduled',
+  'eCRF: 5-digit health state profile entry', 'eCRF: VAS score captured',
+  // C
+  'SAE mandatory admission query present', 'Yes/No options on SAE form', 'Supplementary days field present',
+  // D
+  'Protocol Development complete', 'CRF Architecture complete', 'SIV Briefing complete'
+];
+const SECTION_LABELS = {
+  a: 'A — Macro-Level Resource Utilization',
+  b: 'B — HRQoL Utilities',
+  c: 'C — SAE Economic Impact',
+  d: 'D — Operational Workflow'
+};
+
+// ── Storage ──
+function loadSubmissions() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+function saveSubmissions(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
+
+// ── Section D status dropdown styling ──
+function updateDStatusStyle(sel) {
+  sel.className = 'd-status-select';
+  if (sel.value === 'done') sel.classList.add('status-done');
+  else if (sel.value === 'inprogress') sel.classList.add('status-inprogress');
+  else if (sel.value === 'notstarted') sel.classList.add('status-notstarted');
+}
+
+// ── Phase Lock for Section D ──
+function applyPhaseLock() {
+  const phase = document.getElementById('f-phase').value;
+  const map = {
+    'Protocol Development':          'protocol',
+    'CRF Architecture':              'crf',
+    'Site Initiation Visit (SIV)':   'siv'
+  };
+  const activeKey = map[phase] || null;
+  const allKeys = ['protocol', 'crf', 'siv'];
+  const notice = document.getElementById('d-notice');
+
+  if (!activeKey) {
+    // No phase selected — unlock all
+    allKeys.forEach(k => {
+      const el = document.getElementById('d-' + k);
+      el.classList.remove('locked');
+    });
+    notice.classList.remove('visible');
+    return;
+  }
+
+  // Lock non-matching, unlock matching
+  allKeys.forEach(k => {
+    const el = document.getElementById('d-' + k);
+    if (k !== activeKey) {
+      el.classList.add('locked');
+      el.classList.remove('checked');
+      const cb = el.querySelector('input[type="checkbox"]');
+      if (cb) cb.checked = false;
+    } else {
+      el.classList.remove('locked');
+    }
+  });
+  notice.classList.add('visible');
+  updateProgress();
+}
+
+
+function switchTab(tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'dashboard') renderDashboard();
+}
+
+// ── Checklist logic ──
+function toggle(el) {
+  if (el.classList.contains('locked')) return;
+  el.classList.toggle('checked');
+  updateProgress();
+}
+function toggleSection(id) {
+  const sec = document.getElementById(id);
+  sec.classList.toggle('collapsed');
+  const body = document.getElementById('body-' + id.split('-')[1]);
+  body.style.maxHeight = sec.classList.contains('collapsed') ? '0' : body.scrollHeight + 'px';
+}
+function countSection(secId) {
+  const body = document.getElementById('body-' + secId);
+  const items = body.querySelectorAll('.subsection > .check-item');
+  let checked = 0;
+  items.forEach(i => { if (i.classList.contains('checked')) checked++; });
+  return { checked, total: items.length };
+}
+function updateProgress() {
+  let totalChecked = 0;
+  ['a','b','c','d'].forEach(s => {
+    const { checked, total } = countSection(s);
+    totalChecked += checked;
+    document.getElementById('prog-' + s).textContent = checked + ' / ' + total;
+  });
+  const pct = (totalChecked / TOTAL) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = totalChecked + ' / 18';
+}
+
+function getCheckedItems() {
+  const items = [];
+  document.querySelectorAll('.form-main .subsection > .check-item').forEach((el, i) => {
+    items.push(el.classList.contains('checked'));
+  });
+  return items;
+}
+
+function resetForm() {
+  document.querySelectorAll('.form-main .check-item').forEach(el => el.classList.remove('checked'));
+  ['ds-protocol','ds-crf','ds-siv'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) { sel.value = ''; updateDStatusStyle(sel); }
+  });
+  ['f-study','f-therapeutic','f-drug','f-crf','f-reviewer','f-sig','f-print','f-version'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('f-date').value = '';
+  document.getElementById('f-sigdate').value = '';
+  document.getElementById('f-phase').value = '';
+  applyPhaseLock();
+  updateProgress();
+  showToast('Form reset.');
+}
+
+function submitForm() {
+  const checkedItems = getCheckedItems();
+  const checkedCount = checkedItems.filter(Boolean).length;
+  const study = document.getElementById('f-study').value.trim();
+  const reviewer = document.getElementById('f-reviewer').value.trim();
+  const date = document.getElementById('f-date').value;
+
+  if (!study) { showToast('⚠ Please enter a Study / Protocol Number.'); return; }
+  if (!reviewer) { showToast('⚠ Please enter the Reviewer Name & Role.'); return; }
+
+  // Duplicate warning: same study + same phase
+  const phase = document.getElementById('f-phase').value;
+  const existing = loadSubmissions().filter(s =>
+    s.study.toLowerCase() === study.toLowerCase() &&
+    s.phase === phase
+  );
+  if (existing.length > 0) {
+    const count = existing.length;
+    const lastDate = new Date(existing[0].date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+    const phaseLabel = phase || 'No phase selected';
+    const proceed = confirm(`⚠ Duplicate Detected\n\nStudy "${study}" — phase "${phaseLabel}" already has ${count} submission${count > 1 ? 's' : ''} (last: ${lastDate}).\n\nDo you still want to submit a new entry?`);
+    if (!proceed) return;
+  }
+
+  // Section D incomplete warning
+  const phaseToKey = {
+    'Protocol Development': 'protocol',
+    'CRF Architecture': 'crf',
+    'Site Initiation Visit (SIV)': 'siv'
+  };
+  const activeKey = phaseToKey[phase];
+  if (activeKey) {
+    const dItem = document.getElementById('d-' + activeKey);
+    const dStatus = document.getElementById('ds-' + activeKey).value;
+    const isChecked = dItem && dItem.classList.contains('checked');
+    if (!isChecked) {
+      const statusLabel = dStatus === 'inprogress' ? 'In Progress' : dStatus === 'notstarted' ? 'Not Started' : 'not set';
+      const proceed = confirm(`⚠ Section D Incomplete\n\nThe "${phase}" workflow item has not been checked off.\nCurrent status: ${statusLabel}.\n\nThis means the operational phase is not yet confirmed complete.\n\nSubmit anyway?`);
+      if (!proceed) return;
+    }
+  }
+
+  // Collect Section D statuses
+  const dStatuses = {
+    protocol: document.getElementById('ds-protocol').value,
+    crf: document.getElementById('ds-crf').value,
+    siv: document.getElementById('ds-siv').value
+  };
+
+  const submission = {
+    id: Date.now(),
+    submittedAt: new Date().toISOString(),
+    study: study || '—',
+    drug: document.getElementById('f-drug').value.trim(),
+    therapeutic: document.getElementById('f-therapeutic').value.trim(),
+    crf: document.getElementById('f-crf').value.trim(),
+    reviewer: reviewer || '—',
+    date: date || new Date().toISOString().split('T')[0],
+    phase: phase,
+    sig: document.getElementById('f-sig').value.trim(),
+    sigdate: document.getElementById('f-sigdate').value,
+    print: document.getElementById('f-print').value.trim(),
+    version: document.getElementById('f-version').value.trim(),
+    checkedCount,
+    total: TOTAL,
+    items: checkedItems,
+    dStatuses
+  };
+
+  const all = loadSubmissions();
+  all.unshift(submission);
+  saveSubmissions(all);
+  updateBadge();
+
+  showToast(checkedCount === TOTAL ? '✓ Checklist complete — saved to dashboard!' : `✓ Saved (${checkedCount}/${TOTAL} items checked).`);
+  setTimeout(() => {
+    resetForm();
+    switchTab('dashboard');
+  }, 1200);
+}
+
+// ── Dashboard ──
+function renderDashboard() {
+  const all = loadSubmissions();
+  updateBadge();
+
+  // Stats
+  const complete = all.filter(s => s.checkedCount === s.total).length;
+  const partial = all.filter(s => s.checkedCount > 0 && s.checkedCount < s.total).length;
+  const avgPct = all.length ? Math.round(all.reduce((sum, s) => sum + (s.checkedCount / s.total * 100), 0) / all.length) : null;
+  document.getElementById('stat-total').textContent = all.length;
+  document.getElementById('stat-complete').textContent = complete;
+  document.getElementById('stat-partial').textContent = partial;
+  document.getElementById('stat-avg').textContent = avgPct !== null ? avgPct + '%' : '—';
+
+  renderTable();
+}
+
+function renderTable() {
+  const all = loadSubmissions();
+  const search = document.getElementById('filterSearch').value.toLowerCase();
+  const statusF = document.getElementById('filterStatus').value;
+  const phaseF = document.getElementById('filterPhase').value;
+
+  const filtered = all.filter(s => {
+    const matchSearch = !search || s.study.toLowerCase().includes(search) || s.reviewer.toLowerCase().includes(search);
+    const pct = s.checkedCount / s.total;
+    const statusKey = pct === 1 ? 'complete' : pct === 0 ? 'empty' : 'partial';
+    const matchStatus = !statusF || statusKey === statusF;
+    const matchPhase = !phaseF || s.phase === phaseF;
+    return matchSearch && matchStatus && matchPhase;
+  });
+
+  const tbody = document.getElementById('dashTableBody');
+  const empty = document.getElementById('emptyState');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const allSubmissions = loadSubmissions();
+  const studyPhaseCounts = {};
+  allSubmissions.forEach(s => {
+    const key = s.study.toLowerCase() + '||' + (s.phase || '');
+    studyPhaseCounts[key] = (studyPhaseCounts[key] || 0) + 1;
+  });
+
+  tbody.innerHTML = filtered.map(s => {
+    const pct = Math.round(s.checkedCount / s.total * 100);
+    const isComplete = s.checkedCount === s.total;
+    const isEmpty = s.checkedCount === 0;
+    const badgeClass = isComplete ? 'badge-complete' : isEmpty ? 'badge-empty' : 'badge-partial';
+    const badgeText = isComplete ? 'Complete' : isEmpty ? 'Not started' : 'Partial';
+    const dateStr = s.date ? new Date(s.date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '—';
+    const dupKey = s.study.toLowerCase() + '||' + (s.phase || '');
+    const isDup = studyPhaseCounts[dupKey] > 1;
+    const dupTag = isDup ? `<span style="display:inline-block;margin-left:6px;font-size:9px;font-weight:700;background:#fff3cd;color:#92400e;border:1px solid #fcd34d;border-radius:4px;padding:1px 6px;vertical-align:middle;letter-spacing:0.04em;">DUP</span>` : '';
+
+    return `<tr>
+      <td><strong style="font-size:13px;">${esc(s.study)}</strong>${dupTag}<br><span style="font-size:11px;color:var(--muted);">${esc(s.therapeutic || '')}${s.therapeutic && s.drug ? ' · ' : ''}${esc(s.drug || '')}</span></td>
+      <td>${esc(s.reviewer)}<br><span style="font-size:11px;color:var(--muted);">${esc(s.crf || '—')}</span></td>
+      <td><span style="font-size:12px;color:var(--muted);">${esc(s.phase || '—')}</span></td>
+      <td style="font-size:12px;white-space:nowrap;">${dateStr}</td>
+      <td>
+        <div class="mini-bar-wrap">
+          <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
+          <span class="mini-pct">${pct}%</span>
+        </div>
+      </td>
+      <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+      <td>
+        <div class="row-actions">
+          <button class="row-btn row-btn-view" onclick="viewSubmission(${s.id})">View</button>
+          <button class="row-btn row-btn-del" onclick="deleteSubmission(${s.id})">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function updateBadge() {
+  document.getElementById('submissionBadge').textContent = loadSubmissions().length;
+}
+
+function deleteSubmission(id) {
+  const all = loadSubmissions().filter(s => s.id !== id);
+  saveSubmissions(all);
+  renderDashboard();
+  showToast('Submission removed.');
+}
+
+function clearAllData() {
+  if (!confirm('Clear all submissions? This cannot be undone.')) return;
+  saveSubmissions([]);
+  renderDashboard();
+  showToast('All submissions cleared.');
+}
+
+// ── Modal ──
+function viewSubmission(id) {
+  const s = loadSubmissions().find(s => s.id === id);
+  if (!s) return;
+
+  const pct = Math.round(s.checkedCount / s.total * 100);
+  const sectionRanges = { a: [0,5], b: [6,11], c: [12,14], d: [15,17] };
+
+  let sectionsHtml = '';
+  const dStatusLabels = { done: '✅ Done', inprogress: '🔄 In Progress', notstarted: '⏳ Not Started', '': '— Not set' };
+  const dStatusColors = { done: '#dcfce7;color:#166534', inprogress: '#fef9c3;color:#854d0e', notstarted: '#f1f5f9;color:#64748b', '': '#f8fafc;color:#94a3b8' };
+  const dKeyMap = ['protocol','crf','siv'];
+
+  Object.entries(sectionRanges).forEach(([key, [start, end]]) => {
+    const sItems = ITEM_LABELS.slice(start, end + 1);
+    const rows = sItems.map((label, i) => {
+      const checked = s.items && s.items[start + i];
+      let statusBadge = '';
+      if (key === 'd') {
+        const dKey = dKeyMap[i];
+        const dVal = (s.dStatuses && s.dStatuses[dKey]) || '';
+        const dLabel = dStatusLabels[dVal] || '— Not set';
+        const dColor = dStatusColors[dVal] || dStatusColors[''];
+        statusBadge = `<span style="margin-left:auto;font-size:11px;font-weight:600;padding:2px 10px;border-radius:100px;background:${dColor};white-space:nowrap;">${dLabel}</span>`;
+      }
+      return `<div class="modal-check-row">
+        <span class="modal-check-icon">${checked ? '✅' : '⬜'}</span>
+        <span style="font-size:13px;color:${checked ? 'var(--ink)' : 'var(--muted)'}; flex:1;">${esc(label)}</span>
+        ${statusBadge}
+      </div>`;
+    }).join('');
+    sectionsHtml += `<div class="modal-section-title">${SECTION_LABELS[key]}</div>${rows}`;
+  });
+
+  const dateStr = s.date ? new Date(s.date + 'T00:00:00').toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) : '—';
+
+  document.getElementById('modalTitle').textContent = s.study || 'Submission Detail';
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-meta">
+      <div class="modal-meta-item"><label>Study / Protocol</label><span>${esc(s.study)}</span></div>
+      <div class="modal-meta-item"><label>Therapeutic Area</label><span>${esc(s.therapeutic || '—')}</span></div>
+      <div class="modal-meta-item"><label>Drug / Compound</label><span>${esc(s.drug || '—')}</span></div>
+      <div class="modal-meta-item"><label>Reviewer</label><span>${esc(s.reviewer)}</span></div>
+      <div class="modal-meta-item"><label>Review Date</label><span>${dateStr}</span></div>
+      <div class="modal-meta-item"><label>CRF Version</label><span>${esc(s.crf || '—')}</span></div>
+      <div class="modal-meta-item"><label>Study Phase</label><span>${esc(s.phase || '—')}</span></div>
+      <div class="modal-meta-item"><label>Completion</label><span><strong>${s.checkedCount} / ${s.total}</strong> items (${pct}%)</span></div>
+      <div class="modal-meta-item"><label>Signed by</label><span>${esc(s.sig || '—')}</span></div>
+    </div>
+    ${sectionsHtml}
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) { if (e.target === document.getElementById('modalOverlay')) closeModalDirect(); }
+function closeModalDirect() { document.getElementById('modalOverlay').classList.remove('open'); }
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Init ──
+document.querySelectorAll('.section-body').forEach(b => { b.style.maxHeight = b.scrollHeight + 'px'; });
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+updateProgress();
+updateBadge();
+</script>
+
+<!-- COPYRIGHT FOOTER -->
+<div style="
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: #0d1f3c;
+  color: rgba(255,255,255,0.55);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  text-align: center;
+  padding: 9px 20px;
+  letter-spacing: 0.03em;
+  z-index: 9999;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  user-select: none;
+">
+  © <span id="copy-year"></span> <strong style="color:rgba(255,255,255,0.85);">Ferel Manuputty</strong>. All rights reserved. Unauthorized reproduction, distribution, or modification of this tool is strictly prohibited.
+</div>
+<script>document.getElementById('copy-year').textContent = new Date().getFullYear();</script>
+
+</body>
+</html>
