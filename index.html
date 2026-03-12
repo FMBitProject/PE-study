@@ -783,9 +783,43 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script>
+<script type="module">
 const TOTAL = 18;
 const STORAGE_KEY = 'pe_checklist_submissions';
+
+// ── Firebase ──
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBbjJnhKXnCz01_paqubNQ1DkX92gQYJTc",
+  authDomain: "pe-checklist-aae3b.firebaseapp.com",
+  databaseURL: "https://pe-checklist-aae3b-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "pe-checklist-aae3b",
+  storageBucket: "pe-checklist-aae3b.firebasestorage.app",
+  messagingSenderId: "614308540458",
+  appId: "1:614308540458:web:b8b29a309be7118bbe9353"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getDatabase(firebaseApp);
+const dbRef = ref(db, 'submissions');
+
+let _cachedSubmissions = [];
+function loadSubmissions() { return _cachedSubmissions; }
+function saveSubmissions(data) {
+  _cachedSubmissions = data;
+  const obj = {};
+  data.forEach(s => { obj[s.id] = s; });
+  set(dbRef, data.length > 0 ? obj : null);
+}
+onValue(dbRef, (snapshot) => {
+  const val = snapshot.val();
+  _cachedSubmissions = val ? Object.values(val).sort((a, b) => b.id - a.id) : [];
+  updateBadge();
+  if (document.getElementById('page-dashboard').classList.contains('active')) renderDashboard();
+  const loader = document.getElementById('fb-loader');
+  if (loader) loader.style.display = 'none';
+});
 const ITEM_LABELS = [
   // A
   'Date of Admission captured', 'Date of Discharge captured', 'ICU/CVCU duration captured',
@@ -806,15 +840,6 @@ const SECTION_LABELS = {
   c: 'C — SAE Economic Impact',
   d: 'D — Operational Workflow'
 };
-
-// ── Storage ──
-function loadSubmissions() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
-}
-function saveSubmissions(data) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
-}
 
 // ── Section D status dropdown styling ──
 function updateDStatusStyle(sel) {
@@ -1221,9 +1246,35 @@ document.querySelectorAll('.section-body').forEach(b => { b.style.maxHeight = b.
 document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 updateProgress();
 updateBadge();
-// Show disclaimer first on load
 switchTab('disclaimer');
+
+// Expose functions to window for inline onclick handlers
+window.toggle = toggle;
+window.toggleSection = toggleSection;
+window.switchTab = switchTab;
+window.submitForm = submitForm;
+window.resetForm = resetForm;
+window.applyPhaseLock = applyPhaseLock;
+window.updateDStatusStyle = updateDStatusStyle;
+window.viewSubmission = viewSubmission;
+window.deleteSubmission = deleteSubmission;
+window.clearAllData = clearAllData;
+window.closeModal = closeModal;
+window.closeModalDirect = closeModalDirect;
+window.renderTable = renderTable;
+window.checkLogin = checkLogin;
 </script>
+
+<!-- FIREBASE LOADER -->
+<div id="fb-loader" style="
+  position:fixed;inset:0;background:rgba(255,255,255,0.9);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:99998;font-family:'DM Sans',sans-serif;gap:14px;
+">
+  <div style="width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:#2563b8;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+  <div style="font-size:13px;color:#64748b;">Connecting to database…</div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg);}}</style>
 
 <!-- COPYRIGHT FOOTER -->
 <div style="
