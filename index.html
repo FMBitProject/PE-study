@@ -905,10 +905,24 @@ function toggleSection(id) {
 function countSection(secId) {
   const body = document.getElementById('body-' + secId);
   const items = body.querySelectorAll('.subsection > .check-item');
-  let checked = 0;
-  items.forEach(i => { if (i.classList.contains('checked')) checked++; });
-  return { checked, total: items.length };
+  let checked = 0, total = 0;
+  items.forEach(i => {
+    if (!i.classList.contains('locked')) {
+      total++;
+      if (i.classList.contains('checked')) checked++;
+    }
+  });
+  return { checked, total };
 }
+
+function getUnlockedTotal() {
+  let total = 0;
+  document.querySelectorAll('.form-main .subsection > .check-item').forEach(el => {
+    if (!el.classList.contains('locked')) total++;
+  });
+  return total;
+}
+
 function updateProgress() {
   let totalChecked = 0;
   ['a','b','c','d'].forEach(s => {
@@ -916,9 +930,10 @@ function updateProgress() {
     totalChecked += checked;
     document.getElementById('prog-' + s).textContent = checked + ' / ' + total;
   });
-  const pct = (totalChecked / TOTAL) * 100;
+  const unlockedTotal = getUnlockedTotal();
+  const pct = unlockedTotal > 0 ? (totalChecked / unlockedTotal) * 100 : 0;
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = totalChecked + ' / 18';
+  document.getElementById('progressCount').textContent = totalChecked + ' / ' + unlockedTotal;
 }
 
 function getCheckedItems() {
@@ -950,6 +965,7 @@ function resetForm() {
 function submitForm() {
   const checkedItems = getCheckedItems();
   const checkedCount = checkedItems.filter(Boolean).length;
+  const unlockedTotal = getUnlockedTotal();
   const study = document.getElementById('f-study').value.trim();
   const reviewer = document.getElementById('f-reviewer').value.trim();
   const date = document.getElementById('f-date').value;
@@ -1011,7 +1027,7 @@ function submitForm() {
     print: document.getElementById('f-print').value.trim(),
     version: document.getElementById('f-version').value.trim(),
     checkedCount,
-    total: TOTAL,
+    total: unlockedTotal,
     items: checkedItems,
     dStatuses
   };
@@ -1021,7 +1037,7 @@ function submitForm() {
   saveSubmissions(all);
   updateBadge();
 
-  showToast(checkedCount === TOTAL ? '✓ Checklist complete — saved to dashboard!' : `✓ Saved (${checkedCount}/${TOTAL} items checked).`);
+  showToast(checkedCount === unlockedTotal ? '✓ Checklist complete — saved to dashboard!' : `✓ Saved (${checkedCount}/${unlockedTotal} items checked).`);
   setTimeout(() => {
     resetForm();
     switchTab('dashboard');
