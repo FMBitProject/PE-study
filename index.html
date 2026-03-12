@@ -318,16 +318,48 @@
 </head>
 <body>
 
+<!-- ══════════ LOGIN SCREEN ══════════ -->
+<div id="login-screen" style="
+  position:fixed;inset:0;background:linear-gradient(135deg,#0d1f3c 0%,#1e3a5f 100%);
+  display:flex;align-items:center;justify-content:center;z-index:99999;
+  font-family:'DM Sans',sans-serif;
+">
+  <div style="background:#fff;border-radius:16px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 24px 60px rgba(0,0,0,0.3);text-align:center;">
+    <div style="width:52px;height:52px;background:linear-gradient(135deg,#2563b8,#0891b2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:22px;">📋</div>
+    <div style="font-size:20px;font-weight:700;color:#0d1f3c;margin-bottom:4px;">PE Checklist</div>
+    <div style="font-size:12.5px;color:#94a3b8;margin-bottom:28px;">Enter password to continue</div>
+    <input type="password" id="login-password" placeholder="Password"
+      style="width:100%;border:1.5px solid #e2e8f0;border-radius:9px;padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box;margin-bottom:10px;transition:border-color 0.2s;"
+      onkeydown="if(event.key==='Enter') checkLogin()"
+      onfocus="this.style.borderColor='#2563b8'" onblur="this.style.borderColor='#e2e8f0'">
+    <div id="login-error" style="font-size:12px;color:#dc2626;margin-bottom:10px;display:none;">Incorrect password. Please try again.</div>
+    <button onclick="checkLogin()" style="
+      width:100%;background:linear-gradient(135deg,#2563b8,#0891b2);color:#fff;
+      border:none;border-radius:9px;padding:12px;font-size:14px;font-weight:600;
+      font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity 0.2s;
+    " onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+      Unlock →
+    </button>
+    <div style="font-size:11px;color:#cbd5e1;margin-top:20px;">© 2026 Ferel Manuputty</div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav class="app-nav">
   <div class="nav-brand"><div class="dot"></div>PE Checklist</div>
   <div class="nav-tabs">
+    <button class="nav-tab" onclick="switchTab('disclaimer')" id="tab-disclaimer">
+      🚧 Disclaimer
+    </button>
     <button class="nav-tab active" onclick="switchTab('checklist')" id="tab-checklist">
       📋 New Submission
     </button>
     <button class="nav-tab" onclick="switchTab('dashboard')" id="tab-dashboard">
       📊 Dashboard
       <span class="tab-badge" id="submissionBadge">0</span>
+    </button>
+    <button class="nav-tab" onclick="switchTab('guideline')" id="tab-guideline">
+      📄 Guideline
     </button>
   </div>
   <div class="nav-spacer"></div>
@@ -616,6 +648,127 @@
   </div>
 </div><!-- /page-dashboard -->
 
+<!-- ══════════ GUIDELINE PAGE ══════════ -->
+<div class="page" id="page-guideline">
+  <div class="dash-wrap">
+    <div class="dash-header">
+      <div>
+        <div class="dash-title">📄 PE Checklist <span>Guideline</span></div>
+        <div class="dash-subtitle">Pragmatic Local Pharmacoeconomic Variable Checklist & Guideline</div>
+      </div>
+    </div>
+
+    <div style="background:#fff8e6;border:1px solid #fcd34d;border-radius:10px;padding:12px 18px;margin-bottom:24px;font-size:12.5px;color:#92400e;">
+      <strong>Therapeutic Area:</strong> Cardiology &nbsp;·&nbsp; <strong>Target Users:</strong> MD Associates, Clinical Project Leaders, or Designated Personnel
+    </div>
+
+    <p style="font-size:13.5px;color:#4a5568;line-height:1.8;margin-bottom:28px;">To facilitate the seamless integration of essential health economic variables into standard Cardiology Clinical Trials (RCTs and Observational Studies). The objective is to generate robust local cost data while imposing minimal to no operational burden on Principal Investigators and CROs.</p>
+
+    <!-- Part 1 -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">Part 1 — Strategic Guidelines & Operational Principles</div>
+
+      <div style="margin-bottom:18px;">
+        <div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:6px;">1. Principle of Macro-Costing Focus</div>
+        <p style="font-size:13px;color:#4a5568;line-height:1.7;margin:0 0 8px;">Data collection shall be restricted to primary cost drivers only. Comprehensive full-scale economic evaluations should not be conducted concurrently with the primary clinical trial.</p>
+        <div style="font-size:12.5px;color:#166534;background:#dcfce7;border-radius:7px;padding:8px 14px;margin-bottom:6px;">✅ <strong>Mandatory Inclusions:</strong> Length of Stay (LoS), ICU/CVCU days, emergency readmissions, and major cardiovascular interventions.</div>
+        <div style="font-size:12.5px;color:#991b1b;background:#fee2e2;border-radius:7px;padding:8px 14px;">❌ <strong>Exclusions (Micro-Costing):</strong> Routine consumables, minor concomitant medications, routine low-cost lab panels — unless they represent primary safety endpoints.</div>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:6px;">2. Principle of Minimized Clinical Consultation Burden</div>
+        <p style="font-size:13px;color:#4a5568;line-height:1.7;margin:0;"><strong>Directive:</strong> Utilize concise, validated, self-administered PROMs such as the <strong>EQ-5D-5L</strong>. Study coordinators are responsible for dispensing instruments to subjects for independent completion prior to investigator assessment.</p>
+      </div>
+
+      <div>
+        <div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:6px;">3. Integration with Existing Safety Reporting</div>
+        <p style="font-size:13px;color:#4a5568;line-height:1.7;margin:0;">Leverage existing mandatory clinical forms. Append targeted resource utilization queries directly to standard SAE reporting forms rather than deploying standalone economic adverse event forms.</p>
+      </div>
+    </div>
+
+    <!-- Part 2 -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">Part 2 — Standardized PE Checklist</div>
+      <p style="font-size:13px;color:#4a5568;line-height:1.7;margin-bottom:16px;">The designated personnel must verify the inclusion of the following parameters during CRF review.</p>
+
+      <div style="font-weight:700;font-size:12px;color:#0d1f3c;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8eef5;">A. Macro-Level Resource Utilization</div>
+      <div style="font-size:13px;color:#4a5568;line-height:2;margin-bottom:16px;padding-left:4px;">
+        ☐ &nbsp;<strong>Inpatient Hospitalization & LoS</strong> — Date of Admission/Discharge; ICU/CVCU days<br>
+        ☐ &nbsp;<strong>Major Cardiovascular Interventions</strong> — PCI, CABG, Pacemaker/ICD, Valvular surgery<br>
+        ☐ &nbsp;<strong>Unplanned Hospital Readmissions</strong> — within 30 days post-discharge, with etiology (CV / Non-CV)
+      </div>
+
+      <div style="font-weight:700;font-size:12px;color:#0d1f3c;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8eef5;">B. Health-Related Quality of Life (HRQoL) Utilities</div>
+      <div style="font-size:13px;color:#4a5568;line-height:2;margin-bottom:16px;padding-left:4px;">
+        ☐ &nbsp;<strong>EQ-5D-5L</strong> at Baseline, mid-point follow-up (e.g., Month 6), and End of Study<br>
+        ☐ &nbsp;eCRF supports direct entry of 5-digit EQ-5D health state profile and VAS score
+      </div>
+
+      <div style="font-weight:700;font-size:12px;color:#0d1f3c;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8eef5;">C. Economic Impact of SAEs</div>
+      <div style="font-size:13px;color:#4a5568;line-height:2;padding-left:4px;">
+        ☐ &nbsp;SAE form includes: <em>"Did this SAE necessitate hospital admission or prolong a current inpatient stay?"</em><br>
+        ☐ &nbsp;Yes / No response options present on SAE form<br>
+        ☐ &nbsp;If Yes: supplementary hospital days field is present
+      </div>
+    </div>
+
+    <!-- Part 3 -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:16px;">Part 3 — Operational Implementation Workflow</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="min-width:32px;height:32px;background:linear-gradient(135deg,#2563b8,#0891b2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0;">1</div>
+          <div><div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:3px;">Protocol Development Phase</div><div style="font-size:13px;color:#4a5568;line-height:1.7;">Designated personnel utilizes this framework to construct the HEOR section within the clinical trial protocol.</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="min-width:32px;height:32px;background:linear-gradient(135deg,#2563b8,#0891b2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0;">2</div>
+          <div><div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:3px;">CRF Architecture Phase</div><div style="font-size:13px;color:#4a5568;line-height:1.7;">Coordinate with Data Management and CRO to integrate Part 2 parameters into both eCRF and paper CRF.</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="min-width:32px;height:32px;background:linear-gradient(135deg,#2563b8,#0891b2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;flex-shrink:0;">3</div>
+          <div><div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:3px;">Site Initiation Visit (SIV)</div><div style="font-size:13px;color:#4a5568;line-height:1.7;">Brief Principal Investigators that EQ-5D is entirely patient-administered and economic variable tracking relies on routine discharge documentation — no additional site burden.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-guideline -->
+
+<!-- ══════════ DISCLAIMER PAGE ══════════ -->
+<div class="page" id="page-disclaimer">
+  <div class="dash-wrap" style="max-width:680px;">
+    <div class="dash-header">
+      <div>
+        <div class="dash-title">🚧 <span>Disclaimer</span></div>
+        <div class="dash-subtitle">Important notice about this tool</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1.5px solid #fcd34d;border-radius:12px;padding:28px;margin-bottom:20px;">
+      <div style="font-size:32px;text-align:center;margin-bottom:16px;">🚧</div>
+      <div style="font-weight:700;font-size:18px;color:#92400e;text-align:center;margin-bottom:20px;">This Project is Under Development</div>
+
+      <div style="font-size:13.5px;color:#4a5568;line-height:1.9;">
+        <p style="margin:0 0 14px;">This tool is <strong>not the final version</strong> and is currently in active development. The following should be noted:</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span>⚠️</span><span>Features, data fields, and workflows may change without prior notice.</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span>⚠️</span><span>Data submitted through this tool is for testing and review purposes only.</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span>⚠️</span><span>Do not use this tool for official clinical trial documentation at this stage.</span></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;"><span>⚠️</span><span>Submissions may be cleared or reset during development updates.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">Intellectual Property</div>
+      <div style="font-size:13px;color:#4a5568;line-height:1.8;">
+        © <span id="disclaimer-year"></span> <strong>Ferel Manuputty</strong>. All rights reserved.<br>
+        This tool and its contents are the intellectual property of Ferel Manuputty. Unauthorized copying, modification, distribution, or use of this software, in whole or in part, without express written permission is strictly prohibited.
+      </div>
+    </div>
+  </div>
+</div><!-- /page-disclaimer -->
+
 <!-- DETAIL MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal" id="modalContent">
@@ -630,59 +783,10 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script type="module">
+<script>
 const TOTAL = 18;
 const STORAGE_KEY = 'pe_checklist_submissions';
-
-// ── Firebase Config ──
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBbjJnhKXnCz01_paqubNQ1DkX92gQYJTc",
-  authDomain: "pe-checklist-aae3b.firebaseapp.com",
-  databaseURL: "https://pe-checklist-aae3b-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "pe-checklist-aae3b",
-  storageBucket: "pe-checklist-aae3b.firebasestorage.app",
-  messagingSenderId: "614308540458",
-  appId: "1:614308540458:web:b8b29a309be7118bbe9353"
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getDatabase(firebaseApp);
-const dbRef = ref(db, 'submissions');
-
-// ── Firebase load/save (replaces localStorage) ──
-let _cachedSubmissions = [];
-
-function loadSubmissions() {
-  return _cachedSubmissions;
-}
-
-function saveSubmissions(data) {
-  _cachedSubmissions = data;
-  // Save to Firebase as object keyed by id
-  const obj = {};
-  data.forEach(s => { obj[s.id] = s; });
-  set(dbRef, data.length > 0 ? obj : null);
-}
-
-// Listen for realtime changes from Firebase
-onValue(dbRef, (snapshot) => {
-  const val = snapshot.val();
-  if (val) {
-    _cachedSubmissions = Object.values(val).sort((a, b) => b.id - a.id);
-  } else {
-    _cachedSubmissions = [];
-  }
-  updateBadge();
-  if (document.getElementById('page-dashboard').classList.contains('active')) {
-    renderDashboard();
-  }
-  // Hide loading overlay once data is ready
-  const loader = document.getElementById('fb-loader');
-  if (loader) loader.style.display = 'none';
-});const ITEM_LABELS = [
+const ITEM_LABELS = [
   // A
   'Date of Admission captured', 'Date of Discharge captured', 'ICU/CVCU duration captured',
   'Major interventions field present',
@@ -704,7 +808,13 @@ const SECTION_LABELS = {
 };
 
 // ── Storage ──
-// ── Submissions (handled by Firebase above) ──
+function loadSubmissions() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+function saveSubmissions(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch {}
+}
 
 // ── Section D status dropdown styling ──
 function updateDStatusStyle(sel) {
@@ -753,12 +863,31 @@ function applyPhaseLock() {
 }
 
 
+// ── Login ──
+const APP_PASSWORD = '123';
+function checkLogin() {
+  const val = document.getElementById('login-password').value;
+  if (val === APP_PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-error').style.display = 'none';
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-password').focus();
+  }
+}
+
 function switchTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + tab).classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
   if (tab === 'dashboard') renderDashboard();
+  if (tab === 'disclaimer') {
+    const y = document.getElementById('disclaimer-year');
+    if (y) y.textContent = new Date().getFullYear();
+  }
 }
 
 // ── Checklist logic ──
@@ -776,24 +905,10 @@ function toggleSection(id) {
 function countSection(secId) {
   const body = document.getElementById('body-' + secId);
   const items = body.querySelectorAll('.subsection > .check-item');
-  let checked = 0, total = 0;
-  items.forEach(i => {
-    if (!i.classList.contains('locked')) {
-      total++;
-      if (i.classList.contains('checked')) checked++;
-    }
-  });
-  return { checked, total };
+  let checked = 0;
+  items.forEach(i => { if (i.classList.contains('checked')) checked++; });
+  return { checked, total: items.length };
 }
-function getUnlockedTotal() {
-  // Count all non-locked items in subsections
-  let total = 0;
-  document.querySelectorAll('.form-main .subsection > .check-item').forEach(el => {
-    if (!el.classList.contains('locked')) total++;
-  });
-  return total;
-}
-
 function updateProgress() {
   let totalChecked = 0;
   ['a','b','c','d'].forEach(s => {
@@ -801,10 +916,9 @@ function updateProgress() {
     totalChecked += checked;
     document.getElementById('prog-' + s).textContent = checked + ' / ' + total;
   });
-  const unlockedTotal = getUnlockedTotal();
-  const pct = unlockedTotal > 0 ? (totalChecked / unlockedTotal) * 100 : 0;
+  const pct = (totalChecked / TOTAL) * 100;
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = totalChecked + ' / ' + unlockedTotal;
+  document.getElementById('progressCount').textContent = totalChecked + ' / 18';
 }
 
 function getCheckedItems() {
@@ -836,7 +950,6 @@ function resetForm() {
 function submitForm() {
   const checkedItems = getCheckedItems();
   const checkedCount = checkedItems.filter(Boolean).length;
-  const unlockedTotal = getUnlockedTotal();
   const study = document.getElementById('f-study').value.trim();
   const reviewer = document.getElementById('f-reviewer').value.trim();
   const date = document.getElementById('f-date').value;
@@ -898,7 +1011,7 @@ function submitForm() {
     print: document.getElementById('f-print').value.trim(),
     version: document.getElementById('f-version').value.trim(),
     checkedCount,
-    total: unlockedTotal,
+    total: TOTAL,
     items: checkedItems,
     dStatuses
   };
@@ -908,7 +1021,7 @@ function submitForm() {
   saveSubmissions(all);
   updateBadge();
 
-  showToast(checkedCount === unlockedTotal ? '✓ Checklist complete — saved to dashboard!' : `✓ Saved (${checkedCount}/${unlockedTotal} items checked).`);
+  showToast(checkedCount === TOTAL ? '✓ Checklist complete — saved to dashboard!' : `✓ Saved (${checkedCount}/${TOTAL} items checked).`);
   setTimeout(() => {
     resetForm();
     switchTab('dashboard');
@@ -1083,37 +1196,18 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+function openGuideline() { document.getElementById('guidelineOverlay').style.display = 'flex'; }
+function closeGuideline(e) { if (e.target === document.getElementById('guidelineOverlay')) closeGuidelineDirect(); }
+function closeGuidelineDirect() { document.getElementById('guidelineOverlay').style.display = 'none'; }
+
 // ── Init ──
 document.querySelectorAll('.section-body').forEach(b => { b.style.maxHeight = b.scrollHeight + 'px'; });
 document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
 updateProgress();
-
-// Expose functions to window for inline onclick handlers
-window.toggle = toggle;
-window.toggleSection = toggleSection;
-window.switchTab = switchTab;
-window.submitForm = submitForm;
-window.resetForm = resetForm;
-window.applyPhaseLock = applyPhaseLock;
-window.updateDStatusStyle = updateDStatusStyle;
-window.viewSubmission = viewSubmission;
-window.deleteSubmission = deleteSubmission;
-window.clearAllData = clearAllData;
-window.closeModal = closeModal;
-window.closeModalDirect = closeModalDirect;
-window.renderTable = renderTable;
+updateBadge();
+// Show disclaimer first on load
+switchTab('disclaimer');
 </script>
-
-<!-- FIREBASE LOADING OVERLAY -->
-<div id="fb-loader" style="
-  position:fixed; inset:0; background:rgba(255,255,255,0.85);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  z-index:99999; font-family:'DM Sans',sans-serif; gap:14px;
-">
-  <div style="width:36px;height:36px;border:3px solid #e2e8f0;border-top-color:#2563b8;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
-  <div style="font-size:13px;color:#64748b;">Connecting to database…</div>
-</div>
-<style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
 <!-- COPYRIGHT FOOTER -->
 <div style="
