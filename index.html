@@ -896,11 +896,16 @@ function checkLogin() {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('login-password').value = '';
     document.getElementById('login-error').style.display = 'none';
+    document.getElementById('demo-disclaimer').style.display = 'flex';
   } else {
     document.getElementById('login-error').style.display = 'block';
     document.getElementById('login-password').value = '';
     document.getElementById('login-password').focus();
   }
+}
+
+function closeDemoDisclaimer() {
+  document.getElementById('demo-disclaimer').style.display = 'none';
 }
 
 function switchTab(tab) {
@@ -1241,14 +1246,9 @@ function openGuideline() { document.getElementById('guidelineOverlay').style.dis
 function closeGuideline(e) { if (e.target === document.getElementById('guidelineOverlay')) closeGuidelineDirect(); }
 function closeGuidelineDirect() { document.getElementById('guidelineOverlay').style.display = 'none'; }
 
-// ── Init ──
-document.querySelectorAll('.section-body').forEach(b => { b.style.maxHeight = b.scrollHeight + 'px'; });
-document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
-updateProgress();
-updateBadge();
-switchTab('disclaimer');
-
-// Expose functions to window for inline onclick handlers
+// ── Expose to window early (before module finishes loading) ──
+window.checkLogin = checkLogin;
+window.closeDemoDisclaimer = closeDemoDisclaimer;
 window.toggle = toggle;
 window.toggleSection = toggleSection;
 window.switchTab = switchTab;
@@ -1262,7 +1262,15 @@ window.clearAllData = clearAllData;
 window.closeModal = closeModal;
 window.closeModalDirect = closeModalDirect;
 window.renderTable = renderTable;
-window.checkLogin = checkLogin;
+
+// ── Init ──
+document.querySelectorAll('.section-body').forEach(b => { b.style.maxHeight = b.scrollHeight + 'px'; });
+document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+updateProgress();
+updateBadge();
+switchTab('disclaimer');
+
+// Expose functions to window for inline onclick handlers
 </script>
 
 <!-- FIREBASE LOADER -->
@@ -1275,6 +1283,43 @@ window.checkLogin = checkLogin;
   <div style="font-size:13px;color:#64748b;">Connecting to database…</div>
 </div>
 <style>@keyframes spin{to{transform:rotate(360deg);}}</style>
+
+<!-- DEMO DISCLAIMER POPUP -->
+<div id="demo-disclaimer" style="
+  display:none;position:fixed;inset:0;
+  background:rgba(13,31,60,0.6);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;z-index:99997;
+  font-family:'DM Sans',sans-serif;
+">
+  <div style="
+    background:#fff;border-radius:16px;padding:36px 32px;
+    width:100%;max-width:440px;margin:20px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.25);
+    text-align:center;
+  ">
+    <div style="font-size:36px;margin-bottom:14px;">⚠️</div>
+    <div style="font-size:17px;font-weight:700;color:#0d1f3c;margin-bottom:10px;">Demo & Showcase Only</div>
+    <p style="font-size:13.5px;color:#4a5568;line-height:1.8;margin:0 0 24px;">
+      This tool is intended solely for <strong>demonstration and evaluation purposes</strong>. 
+      It does not constitute a validated clinical instrument and must not be used 
+      in any professional, regulatory, or clinical trial context without 
+      appropriate review and authorization.
+    </p>
+    <div style="font-size:12px;color:#94a3b8;margin-bottom:20px;padding:10px 14px;background:#f8fafc;border-radius:8px;line-height:1.6;">
+      By proceeding, you acknowledge that this product is under active development 
+      and that data entered may be subject to change or removal.
+    </div>
+    <button onclick="closeDemoDisclaimer()" style="
+      background:linear-gradient(135deg,#2563b8,#0891b2);
+      color:#fff;border:none;border-radius:9px;
+      padding:12px 40px;font-size:14px;font-weight:600;
+      font-family:'DM Sans',sans-serif;cursor:pointer;
+      transition:opacity 0.2s;width:100%;
+    " onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+      I Understand, Proceed →
+    </button>
+  </div>
+</div>
 
 <!-- COPYRIGHT FOOTER -->
 <div style="
