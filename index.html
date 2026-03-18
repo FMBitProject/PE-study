@@ -452,18 +452,141 @@
 <!-- ══ GUIDELINE PAGE ══ -->
 <div class="page" id="page-guideline">
   <div class="dash-wrap">
-    <div class="dash-header"><div><div class="dash-title">📄 PE Checklist <span>Guideline</span></div><div class="dash-subtitle">Pragmatic Local Pharmacoeconomic Variable Checklist</div></div></div>
-    <div style="background:#fff8e6;border:1px solid #fcd34d;border-radius:10px;padding:12px 18px;margin-bottom:24px;font-size:12.5px;color:#92400e;"><strong>Therapeutic Area:</strong> Cardiology &nbsp;·&nbsp; <strong>Users:</strong> MD Associates, Clinical Project Leaders</div>
-    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:20px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:14px;">Strategic Guidelines</div>
-      <div style="margin-bottom:14px;"><div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:6px;">Principle of Macro-Costing Focus</div><div style="font-size:12.5px;color:#166534;background:#dcfce7;border-radius:7px;padding:8px 14px;margin-bottom:6px;">✅ <strong>Mandatory:</strong> LoS, ICU/CVCU days, emergency readmissions, major CV interventions.</div><div style="font-size:12.5px;color:#991b1b;background:#fee2e2;border-radius:7px;padding:8px 14px;">❌ <strong>Exclusions:</strong> Routine consumables, minor concomitant medications, low-cost lab panels.</div></div>
-      <div><div style="font-weight:600;font-size:13.5px;color:#0d1f3c;margin-bottom:6px;">SDV Process (Source Data Verification)</div><p style="font-size:13px;color:#4a5568;line-height:1.7;">Only Medical Affair (MA) may perform SDV. Login via the <strong>🔐 MA Login</strong> button in the navigation bar. Once a submission is SDV-verified, it is locked and cannot be modified by standard users. Deletion of verified submissions requires MA credentials and a documented reason. Unlocking a verified submission requires MA credentials and a documented reason — all actions are recorded in the audit trail.</p></div>
+    <div class="dash-header"><div><div class="dash-title">📄 PE Checklist <span>Guideline</span></div><div class="dash-subtitle">Pragmatic Local Pharmacoeconomic Variable Checklist &amp; Filling Instructions</div></div></div>
+
+    <div style="background:#fff8e6;border:1px solid #fcd34d;border-radius:10px;padding:12px 18px;margin-bottom:24px;font-size:12.5px;color:#92400e;line-height:1.7;">
+      <strong>Therapeutic Area:</strong> Cardiology &nbsp;·&nbsp; <strong>Users:</strong> Medical Affair, Clinical Project Leaders, Designated Personnel &nbsp;·&nbsp; <strong>Study Types:</strong> RCT &amp; Observational Studies
     </div>
+
+    <!-- PURPOSE -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">📌 Purpose of This Checklist</div>
+      <p style="font-size:13px;color:#4a5568;line-height:1.8;margin:0;">This checklist ensures that all essential <strong>health economic (HE) and pharmacoeconomic (PE) variables</strong> are correctly integrated into the Case Report Form (CRF) of a cardiology clinical trial. It is a structured review tool to be completed by designated personnel before the CRF is finalized and deployed at site level.</p>
+    </div>
+
+    <!-- WHO FILLS -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:14px;">👥 Who Should Fill This Checklist?</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:9px;padding:14px;">
+          <div style="font-size:12px;font-weight:700;color:#1e40af;margin-bottom:6px;">Medical Affair (MA)</div>
+          <div style="font-size:12px;color:#4a5568;line-height:1.6;">Primary reviewer. Verifies PE variable inclusion, completes sign-off, and performs SDV (Source Data Verification) after review.</div>
+        </div>
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:14px;">
+          <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:6px;">Clinical Project Leader (CPL)</div>
+          <div style="font-size:12px;color:#4a5568;line-height:1.6;">Oversees operational workflow. Reviews Section D sign-off items to confirm protocol, CRF architecture, and SIV briefing alignment.</div>
+        </div>
+        <div style="background:#fdf4ff;border:1px solid #e9d5ff;border-radius:9px;padding:14px;">
+          <div style="font-size:12px;font-weight:700;color:#7c3aed;margin-bottom:6px;">Data Manager / CRO</div>
+          <div style="font-size:12px;color:#4a5568;line-height:1.6;">Confirms eCRF technical integration. Provides input for Section B (EQ-5D-5L structured entry) and Section D CRF Architecture phase.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WHEN TO FILL -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:14px;">📅 When to Fill This Checklist?</div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f0f4f8;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#1a4a8a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">1</div>
+          <div><div style="font-size:13px;font-weight:600;color:#0d1f3c;margin-bottom:3px;">Protocol Development Phase</div><div style="font-size:12.5px;color:#4a5568;line-height:1.6;">Fill when the clinical trial protocol is being drafted. Focus on Sections A, B, C — verify all PE variables are written into the protocol data collection plan.</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f0f4f8;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#2563b8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">2</div>
+          <div><div style="font-size:13px;font-weight:600;color:#0d1f3c;margin-bottom:3px;">CRF Architecture Phase</div><div style="font-size:12.5px;color:#4a5568;line-height:1.6;">Fill after the eCRF is built by Data Management. Verify all variables from the checklist are technically implemented and testable in the CRF system.</div></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;padding:12px 0;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#4a9edd;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">3</div>
+          <div><div style="font-size:13px;font-weight:600;color:#0d1f3c;margin-bottom:3px;">Site Initiation Visit (SIV)</div><div style="font-size:12.5px;color:#4a5568;line-height:1.6;">Fill prior to or during the SIV. Confirm investigators have been briefed on EQ-5D patient administration and PE data collection procedures.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW TO FILL -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:14px;">📝 How to Fill — Section by Section</div>
+
+      <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f4f8;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#0d1f3c,#1a4a8a);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">A</div>
+          <div style="font-size:13px;font-weight:700;color:#0d1f3c;">Macro-Level Resource Utilization</div>
+        </div>
+        <div style="font-size:12.5px;color:#4a5568;line-height:1.8;">
+          Check each item <strong>only if</strong> the corresponding field is confirmed to be present in the draft CRF — do not check if the field is planned but not yet implemented.<br>
+          <span style="color:#2563b8;">• A1:</span> Verify admission and discharge date fields exist as <em>separate</em> CRF fields, not just a calculated LoS field.<br>
+          <span style="color:#2563b8;">• A1 (ICU):</span> Check only if the CRF has a dedicated numeric field for ICU/CVCU days — a free-text note does not qualify.<br>
+          <span style="color:#2563b8;">• A2:</span> Confirm the CRF has a checklist or multi-select field enumerating major CV procedures (PCI, CABG, Pacemaker/ICD, Valvular surgery).<br>
+          <span style="color:#2563b8;">• A3:</span> Both the Yes/No readmission field <em>and</em> the etiology categorization must be present. Check etiology item only when readmission data collection is confirmed.
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f4f8;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#1a4a8a,#2563b8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">B</div>
+          <div style="font-size:13px;font-weight:700;color:#0d1f3c;">HRQoL Utilities (EQ-5D-5L)</div>
+        </div>
+        <div style="font-size:12.5px;color:#4a5568;line-height:1.8;">
+          Confirms the EQ-5D-5L instrument is properly embedded in the eCRF with all required time points.<br>
+          <span style="color:#2563b8;">• B1 (Instrument):</span> Tick only when the full EQ-5D-5L questionnaire is incorporated — not just a reference to administer it separately.<br>
+          <span style="color:#2563b8;">• Time points (Baseline, Mid-point, EoS):</span> Each must be independently scheduled in the visit schedule/CRF. Tick each confirmed time point separately.<br>
+          <span style="color:#2563b8;">• 5-digit profile:</span> eCRF must accept structured input for all 5 dimensions (MO, SC, UA, PD, AD) — a single free-text field does not qualify.<br>
+          <span style="color:#2563b8;">• VAS:</span> Confirm a separate numeric input field (0–100 scale) exists, distinct from the 5-dimension profile.
+        </div>
+      </div>
+
+      <div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #f0f4f8;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#0d2b5c,#1a4a8a);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">C</div>
+          <div style="font-size:13px;font-weight:700;color:#0d1f3c;">SAE Economic Impact</div>
+        </div>
+        <div style="font-size:12.5px;color:#4a5568;line-height:1.8;">
+          Items here are appended to the standard SAE reporting form — do not confuse with the general hospitalization fields in Section A.<br>
+          <span style="color:#2563b8;">• C1 (Mandatory query):</span> The exact hospitalization necessity question must appear on the SAE form — paraphrased versions are not sufficient.<br>
+          <span style="color:#2563b8;">• Yes/No options:</span> Use the nested checkboxes to confirm both response options are available on the form.<br>
+          <span style="color:#2563b8;">• Supplementary days:</span> Only applicable when the answer is "Yes." Confirm the numeric field for additional hospital days exists as a conditional field.
+        </div>
+      </div>
+
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#14532d,#166534);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">D</div>
+          <div style="font-size:13px;font-weight:700;color:#0d1f3c;">Operational Workflow Sign-Off</div>
+        </div>
+        <div style="font-size:12.5px;color:#4a5568;line-height:1.8;">
+          Section D uses a <strong>phase-lock system</strong> — only the item corresponding to the selected Study Phase (set in the form header) can be checked.<br>
+          <span style="color:#166534;">• Select the Study Phase</span> in the header metadata first — the appropriate Section D item will unlock automatically.<br>
+          <span style="color:#166534;">• Status dropdown:</span> Set the workflow status (Done / In Progress / Not Started) for each phase item even when the checkbox is locked — this provides team-wide visibility.<br>
+          <span style="color:#166534;">• Checkbox:</span> Only check when the activity is <strong>fully complete</strong>, not merely in progress.
+        </div>
+      </div>
+    </div>
+
+    <!-- MACRO-COSTING -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">💡 Strategic Guidelines — Macro-Costing Focus</div>
+      <div style="font-size:12.5px;color:#166534;background:#dcfce7;border-radius:7px;padding:10px 14px;margin-bottom:8px;">✅ <strong>Include (Mandatory):</strong> Length of Stay (LoS), ICU/CVCU days, emergency readmissions, major CV interventions (PCI, CABG, ICD, Valvular), EQ-5D-5L at all time points, SAE hospitalization data.</div>
+      <div style="font-size:12.5px;color:#991b1b;background:#fee2e2;border-radius:7px;padding:10px 14px;">❌ <strong>Exclude:</strong> Routine consumables, minor concomitant medications, standard low-cost lab panels, ward-level nursing time, non-hospitalization outpatient visits (unless specified in protocol).</div>
+    </div>
+
+    <!-- SDV -->
+    <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;margin-bottom:16px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:14px;">🔐 SDV Process (Source Data Verification)</div>
+      <div style="font-size:12.5px;color:#4a5568;line-height:1.8;margin-bottom:14px;">Only <strong>Medical Affair (MA)</strong> may perform SDV. Once verified, a submission is <strong>locked</strong> and cannot be modified by standard users. All SDV actions are recorded in an audit trail.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#4a5568;"><span style="color:#d97706;font-weight:700;min-width:52px;flex-shrink:0;">Step 1</span><span>Click <strong>🔐 MA Login</strong> in the top navigation bar and enter MA credentials.</span></div>
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#4a5568;"><span style="color:#d97706;font-weight:700;min-width:52px;flex-shrink:0;">Step 2</span><span>Go to the Dashboard. Submissions show an <strong>✅ SDV</strong> button when MA is active.</span></div>
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#4a5568;"><span style="color:#d97706;font-weight:700;min-width:52px;flex-shrink:0;">Step 3</span><span>Click <strong>✅ SDV</strong>, optionally add verification notes, then confirm to lock the submission.</span></div>
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#4a5568;"><span style="color:#d97706;font-weight:700;min-width:52px;flex-shrink:0;">Unlock</span><span>Click <strong>🔓 Unlock</strong> (MA only) and provide a mandatory reason — recorded in the audit trail.</span></div>
+        <div style="display:flex;gap:10px;font-size:12.5px;color:#4a5568;"><span style="color:#d97706;font-weight:700;min-width:52px;flex-shrink:0;">Delete</span><span>Deleting a locked submission requires MA login, a written reason, and a second confirmation.</span></div>
+      </div>
+    </div>
+
+    <!-- CREDENTIALS -->
     <div style="background:#fff;border:1.5px solid #e8eef5;border-radius:12px;padding:24px;">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:16px;">SDV Credential Reference</div>
-      <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:14px 18px;font-size:13px;color:#92400e;line-height:1.8;">
-        🔐 MA credentials are managed by the system administrator.<br>
-        Demo credentials: username <code style="background:#fff3cd;padding:1px 6px;border-radius:4px;">ferel</code> / password <code style="background:#fff3cd;padding:1px 6px;border-radius:4px;">123</code>
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563b8;margin-bottom:12px;">🔑 MA Credential Reference</div>
+      <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:14px 18px;font-size:13px;color:#92400e;line-height:1.9;">
+        MA credentials are managed by the system administrator.<br>
+        Current credentials: username <code style="background:#fff3cd;padding:1px 6px;border-radius:4px;">ferel</code> / password <code style="background:#fff3cd;padding:1px 6px;border-radius:4px;">123</code>
       </div>
     </div>
   </div>
